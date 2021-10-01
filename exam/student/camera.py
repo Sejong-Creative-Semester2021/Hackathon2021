@@ -11,6 +11,7 @@ import time
 import matplotlib.pyplot as plt
 from .mark_detector import MarkDetector
 from .pose_estimator import PoseEstimator
+from .models import EyeCal
 gaze = GazeTracking()
 
 
@@ -21,6 +22,7 @@ class VideoCamera(object):
         # from a webcam, comment the line below out and use a video file
         # instead.
         self.video = cv2.VideoCapture(0)
+        self.i = 0
         # If you decide to use video.mp4, you must have this file in the folder
         # as the main.py.
         # self.video = cv2.VideoCapture('video.mp4')
@@ -36,10 +38,62 @@ class VideoCamera(object):
         ret, jpeg = cv2.imencode('.jpg', image)
         return jpeg.tobytes()
 
+class StudentEyeCatch(object):
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
+    
+    def __del__(self):
+        cv2.destroyAllWindows()
+    
+    def eyeCatch(self,frame):
+
+        gaze.refresh(frame)
+        frame = gaze.annotated_frame()
+        flag = False
+        flag2 = False
+        left_cal_list = []
+        right_cal_list = []
+        print('1111')
+        if keyboard.is_pressed('o'):
+            flag = False
+            flag2 = False
+            left_cal_list = []
+            right_cal_list = []
+            print('리셋 했습니다.')
+        if keyboard.is_pressed('l') and not flag:
+            if gaze.horizontal_ratio():
+                left_cal_list.append(gaze.horizontal_ratio())
+                if len(left_cal_list) >= 20:
+                    left_cal = sum(left_cal_list)/20
+                    flag = True
+                    gaze.get_left_cal(left_cal)
+                    EyeCal.left = left_cal
+                    print('l', left_cal, '끝났습니다.')
+        if keyboard.is_pressed('r') and not flag2:
+            if gaze.horizontal_ratio():
+                right_cal_list.append(gaze.horizontal_ratio())
+                if len(right_cal_list) >= 20:
+                    right_cal = sum(right_cal_list)/20
+                    flag2 = True
+                    gaze.get_right_cal(right_cal)
+                    EyeCal.right = right_cal
+                    print('r', right_cal, '끝났습니다.')
+        
+        
+        return flag and flag2
+
+    def get_frame(self):
+        success, image = self.video.read()
+        # We are using Motion JPEG, but OpenCV defaults to capture raw images,
+        # so we must encode it into JPEG in order to correctly display the
+        # video stream.
+        ret, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes()
 
 class FaceDetect(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)
+        self.i = 0
 
     def __del__(self):
         cv2.destroyAllWindows()
@@ -131,13 +185,12 @@ class FaceDetect(object):
         known_face_names = n_l
         font = cv2.FONT_HERSHEY_DUPLEX
         tmp_time = time.time()
-        i=0
         flag = False
         flag2 = False
         left_cal_list = []
         right_cal_list = []
         gaze_list=[]
-        i+=1
+        self.i+=1
         delay = time.time() - tmp_time
         tmp_time = time.time()
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
@@ -177,7 +230,7 @@ class FaceDetect(object):
                 cv2.putText(frame, 'up', (x1 + 6, y2 - 6), font, 1.0, (255, 255, 255), 1)
                 self.mark_detector.draw_box(frame, [facebox], box_color=(0, 0, 255))
         face_names = []
-        if i%1 ==0:
+        if self.i%10 ==0:
             face_locations = face_recognition.face_locations(small_frame)
             face_encodings = face_recognition.face_encodings(small_frame, face_locations)
             for face_encoding in face_encodings:
@@ -211,42 +264,42 @@ class FaceDetect(object):
                     cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
         # results = face_recognition.compare_faces([dong_encoding], unknown_face_encoding)
         # print(results)
-        if keyboard.is_pressed('o'):
-            flag = False
-            flag2 = False
-            left_cal_list = []
-            right_cal_list = []
-            print('리셋 했습니다.')
-        if keyboard.is_pressed('l') and not flag:
-            if gaze.horizontal_ratio():
-                left_cal_list.append(gaze.horizontal_ratio())
-                if len(left_cal_list) >= 20:
-                    left_cal = sum(left_cal_list)/20
-                    flag = True
-                    gaze.get_left_cal(left_cal)
-                    print('l', left_cal, '끝났습니다.')
-        if keyboard.is_pressed('r') and not flag2:
-            if gaze.horizontal_ratio():
-                right_cal_list.append(gaze.horizontal_ratio())
-                if len(right_cal_list) >= 20:
-                    right_cal = sum(right_cal_list)/20
-                    flag2 = True
-                    gaze.get_right_cal(right_cal)
-                    print('r', right_cal, '끝났습니다.')
+        # if keyboard.is_pressed('o'):
+        #     flag = False
+        #     flag2 = False
+        #     left_cal_list = []
+        #     right_cal_list = []
+        #     print('리셋 했습니다.')
+        # if keyboard.is_pressed('l') and not flag:
+        #     if gaze.horizontal_ratio():
+        #         left_cal_list.append(gaze.horizontal_ratio())
+        #         if len(left_cal_list) >= 20:
+        #             left_cal = sum(left_cal_list)/20
+        #             flag = True
+        #             gaze.get_left_cal(left_cal)
+        #             print('l', left_cal, '끝났습니다.')
+        # if keyboard.is_pressed('r') and not flag2:
+        #     if gaze.horizontal_ratio():
+        #         right_cal_list.append(gaze.horizontal_ratio())
+        #         if len(right_cal_list) >= 20:
+        #             right_cal = sum(right_cal_list)/20
+        #             flag2 = True
+        #             gaze.get_right_cal(right_cal)
+        #             print('r', right_cal, '끝났습니다.')
         # We send this frame to GazeTracking to analyze it
         gaze.refresh(frame)
         frame = gaze.annotated_frame()
         text = ""
-        if flag and flag2:
-            if gaze.is_right():
-                text = "Looking right"
-            elif gaze.is_left():
-                text = "Looking left"
-            print(gaze.vertical_ratio())
-            if type(gaze.horizontal_ratio()) is float:
-                gaze_list.append(gaze.horizontal_ratio())
-            #print(gaze.horizontal_ratio())
-            cv2.putText(frame, text, (90, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
+        # if flag and flag2:
+        if gaze.is_right():
+            text = "Looking right"
+        elif gaze.is_left():
+            text = "Looking left"
+        print(gaze.vertical_ratio())
+        if type(gaze.horizontal_ratio()) is float:
+            gaze_list.append(gaze.horizontal_ratio())
+        #print(gaze.horizontal_ratio())
+        cv2.putText(frame, text, (90, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
             #left_pupil = gaze.pupil_left_coords()
             # right_pupil = gaze.pupil_right_coords()
         #cv2.putText(frame, "Left pupil:  " + str(left_pupil), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
@@ -255,9 +308,9 @@ class FaceDetect(object):
             print('복사하셨습니다.')
         if keyboard.is_pressed('ctrl+v'):
             print('붙혀넣기 하셨습니다.')
-        cv2.imshow('frame', frame)
-        if cv2.waitKey(1) == ord('q'):
-            pass
+        # cv2.imshow('frame', frame)
+        # if cv2.waitKey(1) == ord('q'):
+        #     pass
         # plt.hist(gaze_list, bins=100)
         # plt.axvline(left_cal, 0, 1, color='red', linestyle='--', linewidth=3, alpha=0.6)
         # plt.axvline(right_cal, 0, 1, color='red', linestyle='--', linewidth=3, alpha=0.6)

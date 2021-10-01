@@ -10,4 +10,6 @@ urlpatterns = [
     path('result',views.result, name="result"),
     path('exam',views.exam, name="exam"),
     path('webrtc', views.webrtc, name="webrtc"),
+    path('eyecapture',views.capture_face, name="eyecapture"),
+    path('exam_camera',views.exam_camera, name="exam_camera"),
 ]

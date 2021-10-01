@@ -4,6 +4,7 @@ import cv2
 import dlib
 from .eye import Eye
 from .calibration import Calibration
+from ..models import EyeCal
 
 
 class GazeTracking(object):
@@ -99,7 +100,7 @@ class GazeTracking(object):
     def is_right(self):
         """Returns true if the user is looking to the right"""
         if self.pupils_located:
-            return self.horizontal_ratio() <= 0.35
+            return self.horizontal_ratio() <= 0.5
 
     def is_left(self):
         """Returns true if the user is looking to the left"""

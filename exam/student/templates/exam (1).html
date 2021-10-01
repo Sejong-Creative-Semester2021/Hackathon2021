@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>room number</title>
+    <title>시험 화면</title>
     <meta name="description" content="Elegant UI Toolkit for Professional Web Creatives Based on Bootstrap 4">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -17,39 +17,28 @@
 <div class="loader"><div class="page-loader"></div></div>
 
 <!-- 메인 페이지 -->
-<div class="welcome d-flex justify-content-center flex-column">
-    <div class="inner-wrapper mt-auto mb-auto">
-        <h1>Room Number: 1234567</h1>
-        <p class="slide-in">박이름 교수님의 방</p>
-        <div class="action-links slide-in">
-            <h5>19011234 김이름</h5>
-          <img src="http://127.0.0.1:8000/face" style="width:50%; height:50%"/>
+<div class="welcome d-flex flex-column">
+    <div class="inner-wrapper">
+        <div class="row">
+            <div class="col-6 col-md-4 mt-5">
+                <!-- <img src="http://127.0.0.1:8000/face" style="width:90%"/> -->
+                <video id="video-output"></video>
+            </div>
+            <div class="col-md-7 mt-5 mb-5 mr-1" style="background-color:gray; border-radius: 30px">
+                <p><textarea style="margin-top:30px" cols="90%" rows="30%"></textarea></p>
+                <button style="margin-bottom:30px"type="button" class="btn btn-success btn-pill">제출</button>
+            </div>
         </div>
         <div class="col-md-9 mb-3 ml-auto mr-auto d-flex justify-content-around buttons-wrapper"></div>
-    </div>
-    
-</div>
-<div class="text-center" style="margin-top:20px">
-    <button type="button" class="btn btn-pill btn-danger" onclick="location.href='http://127.0.0.1:8000/result';"><i class="fa fa-remove mr-1"></i>종료</button>
-</div>
-    <footer class="main-footer py-5">
-        <p class="text-muted text-center small p-0 mb-4">&copy; Copyright 2017 — DesignRevision</p>
-        <div class="social d-table ml-auto mr-auto">
-            <a class="twitter mx-3 h4" href="https://twitter.com/DesignRevision" target="_blank">
-                <i class="fa fa-twitter"></i>
-                <span class="sr-only">View our Twitter Profile</span>
-            </a>
-            <a class="facebook mx-3 h4" href="https://www.facebook.com/designrevision" target="_blank">
-                <i class="fa fa-facebook"></i>
-                <span class="sr-only">View our Facebook Profile <span>
-            </a>
-            <a class="github mx-3 h4" href="https://github.com/designrevision" target="_blank">
-                <i class="fa fa-github"></i>
-                <span class="sr-only">View our GitHub Profile</span>
-            </a>
         </div>
-    </footer>
+    </div>
+    <div>
+        <button id="startBtn">시험 시작</button>
+        <button id="stopBtn">시험 종료</button>
+    </div>
 </div>
+
+
 
 <!-- JavaScript -->
 <div id="fb-root"></div>
@@ -62,5 +51,9 @@
 <script src="static/assets/js/shards.min.js"></script>
 <script src="static/assets/js/demo.min.js"></script>
 
+<!--화면 녹화 자바스크립트-->
+<script src="../static/assets/js/screen_recording.js"></script>
+<!-- <script src="../static/assets/js/recording.js"></script> -->
+<script src="../static/assets/js/webcam.js"></script>
 </body>
 </html>

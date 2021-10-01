@@ -21,10 +21,13 @@
     <div class="inner-wrapper">
         <div class="row">
             <div class="col-6 col-md-4 mt-5">
-                <img src="http://127.0.0.1:8000/face" style="width:90%"/>
+                <!-- <img src="http://127.0.0.1:8000/face" style="width:90%"/> -->
+                <video id="video-output"></video>
+                <button class="btn btn-primary btn-pill" id="startBtn">시험 시작</button>
+                <button class="btn btn-danger btn-pill" id="stopBtn">시험 종료</button>
             </div>
             <div class="col-md-7 mt-5 mb-5 mr-1" style="background-color:gray; border-radius: 30px">
-                <p><textarea style="margin-top:30px" cols="90%" rows="30%"></textarea></p>
+                <p><textarea style="margin-top:30px" cols="90%" rows="30%" placeholder="답안을 입력하세요."></textarea></p>
                 <button style="margin-bottom:30px"type="button" class="btn btn-success btn-pill">제출</button>
             </div>
         </div>
@@ -46,5 +49,9 @@
 <script src="static/assets/js/shards.min.js"></script>
 <script src="static/assets/js/demo.min.js"></script>
 
+<!--화면 녹화 자바스크립트-->
+<script src="../static/assets/js/screen_recording.js"></script>
+<!-- <script src="../static/assets/js/recording.js"></script> -->
+<script src="../static/assets/js/webcam.js"></script>
 </body>
 </html>
