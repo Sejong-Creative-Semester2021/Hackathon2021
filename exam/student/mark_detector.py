@@ -3,14 +3,17 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
+from pathlib import Path
+import os
+BASE_DIR = Path(__file__).resolve().parent
 
 
 class FaceDetector:
     """Detect human face from image"""
 
     def __init__(self,
-                 dnn_proto_text='assets/deploy.prototxt',
-                 dnn_model='assets/res10_300x300_ssd_iter_140000.caffemodel'):
+                 dnn_proto_text=os.path.join(BASE_DIR, 'assets/deploy.prototxt'),
+                 dnn_model=os.path.join(BASE_DIR, 'assets/res10_300x300_ssd_iter_140000.caffemodel')):
         """Initialization"""
         self.face_net = cv2.dnn.readNetFromCaffe(dnn_proto_text, dnn_model)
         self.detection_result = None
@@ -63,7 +66,7 @@ class FaceDetector:
 class MarkDetector:
     """Facial landmark detector by Convolutional Neural Network"""
 
-    def __init__(self, saved_model='assets/pose_model'):
+    def __init__(self, saved_model=os.path.join(BASE_DIR, 'assets/pose_model')):
         """Initialization"""
         # A face detector is required for mark detection.
         self.face_detector = FaceDetector()

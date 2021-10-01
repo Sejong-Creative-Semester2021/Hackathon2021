@@ -15,6 +15,10 @@ def gen(camera):
     while True:
         _, frame = FaceDetect().video.read()
         e = camera.faceRecognition(frame)
+        _, jpeg = cv2.imencode('.jpg', frame)
+        frame = jpeg.tobytes()
+        yield (b'--frame\r\n'
+				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         # print('캡쳐했습니다.')
         # print('fhgfghfhg',frame)    # cv2.imwrite('dong.jpg', frame)
         # face_locations = face_recognition.face_locations(frame)
@@ -22,10 +26,11 @@ def gen(camera):
         # dong_encoding = face_recognition.face_encodings(frame, face_locations)[0]
         #     # dong_image = face_recognition.load_image_file("dong.jpg")
         #     # dong_encoding = face_recognition.face_encodings(dong_image)[0]
-        if e is not None:
+        # print(e)
+        if len(e) != 0:
             break
 
-    print('break ehoTtmqslek')
+
     # image = FaceDetect().video.read()
     # e = camera.faceRecognition(image)
     known_face_encodings = [
@@ -39,9 +44,9 @@ def gen(camera):
             # "Joe Biden"
     ]
     while True:
-        print('1')
-        _, image = FaceDetect().video.read()
-        frame = FaceDetect().func2(known_face_encodings,known_face_names,image)
+        # print('1')
+        _, image = camera.video.read()
+        frame = camera.func2(known_face_encodings,known_face_names,image)
         _, jpeg = cv2.imencode('.jpg', frame)
         frame = jpeg.tobytes()
         yield (b'--frame\r\n'

@@ -7,7 +7,6 @@ from argparse import ArgumentParser
 from .gaze_tracking import GazeTracking
 import keyboard
 import cv2
-from pynput import keyboard
 import time
 import matplotlib.pyplot as plt
 from .mark_detector import MarkDetector
@@ -128,13 +127,6 @@ class FaceDetect(object):
         return dong_encoding
 
     def func2(self, e_l, n_l, frame):
-
-
-
-
-
-
-
         known_face_encodings = e_l
         known_face_names = n_l
         font = cv2.FONT_HERSHEY_DUPLEX
@@ -185,7 +177,7 @@ class FaceDetect(object):
                 cv2.putText(frame, 'up', (x1 + 6, y2 - 6), font, 1.0, (255, 255, 255), 1)
                 self.mark_detector.draw_box(frame, [facebox], box_color=(0, 0, 255))
         face_names = []
-        if i%10 ==0:
+        if i%1 ==0:
             face_locations = face_recognition.face_locations(small_frame)
             face_encodings = face_recognition.face_encodings(small_frame, face_locations)
             for face_encoding in face_encodings:
@@ -266,11 +258,11 @@ class FaceDetect(object):
         cv2.imshow('frame', frame)
         if cv2.waitKey(1) == ord('q'):
             pass
-        plt.hist(gaze_list, bins=100)
-        plt.axvline(left_cal, 0, 1, color='red', linestyle='--', linewidth=3, alpha=0.6)
-        plt.axvline(right_cal, 0, 1, color='red', linestyle='--', linewidth=3, alpha=0.6)
-        time.sleep(10)
-        plt.show()
+        # plt.hist(gaze_list, bins=100)
+        # plt.axvline(left_cal, 0, 1, color='red', linestyle='--', linewidth=3, alpha=0.6)
+        # plt.axvline(right_cal, 0, 1, color='red', linestyle='--', linewidth=3, alpha=0.6)
+        # time.sleep(10)
+        # plt.show()
 
 
 
@@ -310,15 +302,16 @@ class FaceDetect(object):
         tmp_time = time.time()
         delay = time.time() - tmp_time
         tmp_time = time.time()
-        small_frame = cv2.resize(self.frame, (0, 0), fx=0.25, fy=0.25)
+        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-        rgb_small_frame = small_frame[:, :, ::-1]
-        self.frame = rgb_small_frame
-        try:
-            fps = 1 / delay
-        except:
-            print('0값임')
-        print("fps: %.2f" % fps)
+        #rgb_small_frame = small_frame[:, :, ::-1]
+        frame = small_frame
+        # try:
+        #     fps = 1 / delay
+        #     print("fps: %.2f" % fps)
+        # except:
+        #     print('0값임')
+        
         # rgb_small_frame = frame[:, :, ::-1]
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(frame)
@@ -377,8 +370,8 @@ class FaceDetect(object):
         # results = face_recognition.compare_faces([dong_encoding], unknown_face_encoding)
         # print(results)
         # We send this frame to GazeTracking to analyze it
-        gaze.refresh(self.frame)
-        self.frame = gaze.annotated_frame()
+        gaze.refresh(frame)
+        frame = gaze.annotated_frame()
         text = ""
         if gaze.is_blinking():
             text = "Blinking"
@@ -399,6 +392,7 @@ class FaceDetect(object):
         # if cv2.waitKey(1) == ord('q'):
         #     break
         # cap.release()
+        return frame
 
 
     def get_frame(self, e):
