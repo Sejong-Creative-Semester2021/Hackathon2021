@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>천리안</title>
+    <title>room number</title>
     <meta name="description" content="Elegant UI Toolkit for Professional Web Creatives Based on Bootstrap 4">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -19,72 +19,16 @@
 <!-- 메인 페이지 -->
 <div class="welcome d-flex justify-content-center flex-column">
     <div class="inner-wrapper mt-auto mb-auto">
-        <h1 class="slide-in">천리안</h1>
-        <p class="slide-in">비대면 AI 시험 감독관</p>
+        <h1>Room Number</h1>
+        <p class="slide-in">room number</p>
         <div class="action-links slide-in">
-          <a href="#student-cards" class="btn btn-primary btn-pill align-self-center mr-2">학생</a>
-          <a href="#professor-" data-scroll-to="#professor" id="scroll-to-content" class="btn btn-outline-light btn-pill align-self-center">교수</a>
+            <h5>이름 학번</h5>
+          <img src="http://127.0.0.1:8000/face" style="width:50%"/>
+        </div>
+        <div class="col-md-9 mb-3 ml-auto mr-auto d-flex justify-content-around buttons-wrapper"></div>
+            <button type="button" class="btn btn-pill btn-danger" onclick="location.href='http://127.0.0.1:8000/result';"><i class="fa fa-remove mr-1"></i>종료</button>
         </div>
     </div>
-			<!-- Modals -->
-			<div id="modals" class="container mb-5">
-				<div class="mb-5">
-					<button type="button" class="btn btn-primary btn-pill btn-lg d-table ml-auto mr-auto" data-toggle="modal" data-target="#exampleModal">
-						✋ Click Me!
-					</button>
-					
-					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">🤔 Think about it</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<div class="row mb-5">
-										<div class="col-md-12">
-											<form>
-												<div class="row">
-													<div class="form-group col-md-6">
-														<label for="form1-name" class="col-form-label">이름</label>
-														<input type="text" class="form-control" id="form1-name" placeholder="이름">
-													</div>
-													<div class="form-group col-md-6">
-														<label for="form1-email" class="col-form-label">학번</label>
-														<input type="email" class="form-control" id="form1-email" placeholder="학번">
-													</div>
-												</div>
-					
-												<div class="row">
-													<div class="col-md-6 mb-4">
-														<label for="form1-password">비밀번호</label>
-														<input type="password" class="form-control" id="form1-password" placeholder="비밀번호" required>
-													</div>
-													<div class="col-md-3 mb-4">
-														<label for="form1-state">분반</label>
-														<select class="custom-select d-block col-md-3" id="form1-state" required>
-															<option value="">분반</option>
-															<option value="1">1</option>
-															<option value="2">2</option>
-														</select>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Nope</button>
-									<a href="#student" class="btn btn-success" data-dismiss="modal">학생</a>
-									<button type="button" class="btn btn-success" data-dismiss="modal">Yep</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 </div>
 
 <!-- Page Content -->
@@ -116,14 +60,15 @@
 												</div>
 												<div class="form-group row-md-6">
 													<label for="form1-email" class="col-form-label">학번</label>
-													<input type="number" class="form-control" id="form1-number" placeholder="학번">
+													<input type="email" class="form-control" id="form1-email" placeholder="학번">
 												</div>
 												<div class="row-md-6 mb-4">
 													<label for="form1-password" class="col-form-label">방 번호</label>
-													<input type="text" class="form-control" id="student-roomnumber" placeholder="방 번호" required>
+													<input type="password" class="form-control" id="form1-password" placeholder="비밀번호" required>
 												</div>
 												<div class="row-md-6 mb-4">
-													<button type="submit" class="btn btn-primary" id="submit_btn" onclick="location.href='http://127.0.0.1:8000/cam_capture'">제출</button>
+                                                    
+													<a href="#" class="btn btn-primary">제출</a>
 												</div>
 											</div>
 										</form>
@@ -1648,7 +1593,6 @@
 
 <!-- JavaScript -->
 <div id="fb-root"></div>
-<script type="text/javascript">(function get_Submit(){console.log("asdfasdf"); const room_number=document.getElementById("student-roomnumber").value; console.log(room_number); if (room_number=="456"){location.href="cam_capture.html"}else{alert("방 번호를 다시 입력해주세요")}})</script>
 <script>(function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=1662270373824826"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -1657,5 +1601,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 <script src="static/assets/js/shards.min.js"></script>
 <script src="static/assets/js/demo.min.js"></script>
+
 </body>
 </html>

@@ -8,6 +8,18 @@ import face_recognition
 def index(request):
     return render(request, 'index.html')
 
+def prof_room(request):
+    return render(request, 'prof_room.html')
+
+def cam_capture(request):
+    return render(request, 'cam_capture.html') 
+
+def exam(request):
+    return render(request, 'exam.html') 
+
+def result(request):
+    return render(request, 'result.html')   
+
 def webrtc(request):
     return render(request, 'webrtc_server_client/rtc.html')
 
